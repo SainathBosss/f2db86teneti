@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1= title
+  - let pens=[{pens_ink:"Blue",pen_brand:"Reynolds",pens_cost:"3"},{pens_ink:"Black",pen_brand:"Parker",pens_cost:"4"},{pens_ink:"Red",pen_brand:"Cello",pens_cost:"5"}]
+    
+    div(class="container-fluid mt-3")
+    div(class="row")
+        each pen,index in pens
+            div(class="col-sm-2 bg-link m-1 p-3" style="color:maroon; background-color:ivory;"  onclick=`buy(${index})`)  #{pen.pens_ink} - #{pen.pen_brand} - #{pen.pens_cost}
+
+        
+    script.
+     
+      function buy(itemNo)
+      {
+        alert(`You purchased Item ${itemNo+1}`)
+      }
+   
+    
