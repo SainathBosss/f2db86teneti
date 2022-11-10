@@ -1,14 +1,35 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+var mongoose = require('mongoose')
+var mongodb = require('mongodb')
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var pen = require("./models/pen");
+require('dotenv').config();
+const connectionString =
+  process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+var db = mongoose.connection;
+//Bind connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connectionerror:'));
+db.once("open", function () {
+  console.log("Connection to DB succeeded")
+});
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var pensRouter = require('./routes/pens');
+var pensRouter = require('./routes/pen');
 var gridbuildRouter = require('./routes/gridbuild');
 var selectorRouter = require('./routes/selector');
+var resourceRouter = require('./routes/resource');
+
+const pens = require('./models/pen');
 
 var app = express();
 
@@ -18,15 +39,16 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/pens', pensRouter);
 app.use('/gridbuild', gridbuildRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,5 +65,38 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+async function recreateDB() {
+  // Delete everything
+  await pen.deleteMany();
+  let instance1 = new
+    pen({
+      pen_ink: "black", pen_brand: "Vinguide",
+      pen_cost: 25
+    });
+    instance1.save( function(err,doc) {
+      if(err) return console.error(err);
+      console.log("First object saved")
+    });
+    let instance2 = new
+    pen({
+      pen_ink: "blue", pen_brand: "Parker",
+      pen_cost: 30
+    });
+    instance2.save( function(err,doc) {
+      if(err) return console.error(err);
+      console.log("Second object saved")
+    });
+    let instance3 = new
+    pen({
+      pen_ink: "black", pen_brand: "Pentel",
+      pen_cost: 45
+    });
+    instance3.save( function(err,doc) {
+      if(err) return console.error(err);
+      console.log("Third object saved")
+    });
+  }
+  let reseed = true;
+  if (reseed) { recreateDB(); }
 
 module.exports = app;
