@@ -4,11 +4,10 @@ block content
   h1= title
   - let results=[{pen_ink:"Blue",pen_brand:"Reynolds",pen_cost:3},{pen_ink:"Black",pen_brand:"Parker",pen_cost:4},{pen_ink:"Red",pen_brand:"Cello",pen_cost:5}]
     
-   h1= title
   .container-fluid 
     .row 
       each pen in results
-        div(class="col-sm-2" onclick=`buy(${results.indexOf(fishes)})`) 
+        div(class="pensAttr col-sm-2" onclick=`buy(${results.indexOf(fishes)})`) 
           each value,key in pen 
             = " " +value
   script.

@@ -7,8 +7,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var pen = require("./models/pen");
 require('dotenv').config();
-const connectionString =
-  process.env.MONGO_CON
+const connectionString =process.env.MONGO_CON
 mongoose = require('mongoose');
 mongoose.connect(connectionString,
   {
@@ -29,7 +28,6 @@ var gridbuildRouter = require('./routes/gridbuild');
 var selectorRouter = require('./routes/selector');
 var resourceRouter = require('./routes/resource');
 
-const pens = require('./models/pen');
 
 var app = express();
 
@@ -45,7 +43,7 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/pens', pensRouter);
+app.use('/pen', pensRouter);
 app.use('/gridbuild', gridbuildRouter);
 app.use('/selector', selectorRouter);
 app.use('/resource', resourceRouter);

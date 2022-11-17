@@ -6,3 +6,19 @@ body {
 a {
   color: #00B7FF;
 }
+.pensAttr { 
+  background-color: aquamarine; 
+  width: 120px; 
+} 
+
+.pensAttr { 
+  background-color: rgb(21, 76, 159); 
+  width: 120px; 
+  color:chartreuse;
+  border-style: solid;
+} 
+
+.heading{
+  background-color: cadetblue;
+  border-style: double;
+}
