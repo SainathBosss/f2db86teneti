@@ -1,9 +1,9 @@
 var pen = require('../models/pen');
-// List of all pens
+// List of all pen
 exports.pen_list = async function (req, res) {
     try {
-        thepens = await pen.find();
-        res.send(thepens);
+        results = await pen.find();
+        res.send(results);
     } catch (err) {
         res.send(`{"error": ${err}}`)
         res.status(500);
@@ -15,8 +15,8 @@ exports.pen_list = async function (req, res) {
 exports.pen_detail = async function (req, res) {
     console.log("detail" + req.params.id)
     try {
-        result = await pen.findById(req.params.id)
-        res.send(result)
+        results = await pen.findById(req.params.id)
+        res.send(results)
     } catch (error) {
         res.status(500)
         res.send(`{"error": document for id ${req.params.id} not found`);
@@ -32,9 +32,9 @@ exports.pen_update_put = async function (req, res) {
         if (req.body.pen_ink) toUpdate.pen_ink = req.body.pen_ink;
         if (req.body.pen_brand) toUpdate.pen_brand = req.body.pen_brand;
         if (req.body.pen_cost) toUpdate.pen_cost = req.body.pen_cost;
-        let result = await toUpdate.save();
-        console.log("Success " + result)
-        res.send(result)
+        let results = await toUpdate.save();
+        console.log("Success " + results)
+        res.send(results)
     } catch (err) {
         res.status(500)
         res.send(`{"error": ${err}: Update for id ${req.params.id} failed`);
@@ -52,8 +52,8 @@ exports.pen_create_post = async function (req, res) {
         document.pen_brand = req.body.pen_brand;
         document.pen_cost = req.body.pen_cost;
 
-        let result = await document.save();
-        res.send(result);
+        let results = await document.save();
+        res.send(results);
     } catch (err) {
         // console.log(err);
         res.send(err)
@@ -64,9 +64,9 @@ exports.pen_create_post = async function (req, res) {
 exports.pen_delete = async function (req, res) {
     console.log("delete " + req.params.id)
     try {
-        result = await pen.findByIdAndDelete(req.params.id)
-        console.log("Removed " + result)
-        res.send(result)
+        results = await pen.findByIdAndDelete(req.params.id)
+        console.log("Removed " + results)
+        res.send(results)
     } catch (err) {
         res.status(500)
         res.send(`{"error": Error deleting ${err}}`);
@@ -78,10 +78,10 @@ exports.pen_delete = async function (req, res) {
 // Handle a show all view
 exports.pen_view_all_Page = async function (req, res) {
     try {
-        thepens = await pen.find();
-        res.render('pens', {
+        results = await pen.find();
+        res.render('pen', {
             title: 'pen Search Results',
-            results: thepens
+            results: results
         });
     } catch (err) {
         res.send(`{"error": ${err}}`)
@@ -92,10 +92,10 @@ exports.pen_view_all_Page = async function (req, res) {
 exports.pen_view_one_Page = async function (req, res) {
     console.log("single view for id " + req.query.id)
     try {
-        result = await pen.findById(req.query.id)
+        results = await pen.findById(req.query.id)
         res.render('pendetail', {
             title: 'pen Detail',
-            toShow: result
+            toShow: results
         });
     } catch (err) {
         res.status(500)
@@ -121,10 +121,10 @@ exports.pen_create_Page = function (req, res) {
 exports.pen_update_Page = async function (req, res) {
     console.log("update view for item " + req.query.id)
     try {
-        let result = await pen.findById(req.query.id)
+        let results = await pen.findById(req.query.id)
         res.render('penupdate', {
             title: 'pen Update',
-            toShow: result
+            toShow: results
         });
     } catch (err) {
         res.status(500)
@@ -135,10 +135,10 @@ exports.pen_update_Page = async function (req, res) {
 exports.pen_delete_Page = async function (req, res) {
     console.log("Delete view for id " + req.query.id)
     try {
-        result = await pen.findById(req.query.id)
+        results = await pen.findById(req.query.id)
         res.render('pendelete', {
             title: 'pen Delete',
-            toShow: result
+            toShow: results
         });
     } catch (err) {
         res.status(500)
@@ -149,9 +149,9 @@ exports.pen_delete_Page = async function (req, res) {
 exports.pen_view_one_Page = async function(req, res) { 
     console.log("single view for id "  + req.query.id) 
     try{ 
-        result = await pen.findById( req.query.id) 
+        results = await pen.findById( req.query.id) 
         res.render('pendetail',  
-{ title: 'pen Detail', toShow: result }); 
+{ title: 'pen Detail', toShow: results }); 
     } 
     catch(err){ 
         res.status(500) 
@@ -178,8 +178,8 @@ exports.pen_create_Page =  function(req, res) {
 exports.pen_update_Page =  async function(req, res) { 
     console.log("update view for item "+req.query.id) 
     try{ 
-        let result = await pen.findById(req.query.id) 
-        res.render('penupdate', { title: 'pen Update', toShow: result }); 
+        let results = await pen.findById(req.query.id) 
+        res.render('penupdate', { title: 'pen Update', toShow: results }); 
     } 
     catch(err){ 
         res.status(500) 
@@ -191,9 +191,9 @@ exports.pen_update_Page =  async function(req, res) {
 exports.pen_delete_Page = async function(req, res) { 
     console.log("Delete view for id "  + req.query.id) 
     try{ 
-        result = await pen.findById(req.query.id) 
+        results = await pen.findById(req.query.id) 
         res.render('pendelete', { title: 'pen Delete', toShow: 
-result }); 
+        results }); 
     } 
     catch(err){ 
         res.status(500) 

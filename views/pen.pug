@@ -1,18 +1,17 @@
-extends layout
+extends layout 
 
-block content
-  h1= title
-  - let results=[{pen_ink:"Blue",pen_brand:"Reynolds",pen_cost:3},{pen_ink:"Black",pen_brand:"Parker",pen_cost:4},{pen_ink:"Red",pen_brand:"Cello",pen_cost:5}]
-    
-  .container-fluid 
-    .row 
-      each pen in results
-        div(class="pensAttr col-sm-2" onclick=`buy(${results.indexOf(fishes)})`) 
-          each value,key in pen 
-            = " " +value
-  script.
-    function buy(index){
-      alert("You purchased item "+index)
-    }
-   
+block content 
+    h1= title
+    - let items = results;
+    div(class="container-fluid")
+        div(class ="row m-1")
+            each item in items
+                - let destination = `dispatch(\"/pen/update?id=${item._id}\")`
+                div.col-sm-2(onclick=`buy(${index})`) #{item["pen_ink"]}, #{item["pen_brand"]}, #{item["pen_cost"]}
+                    button.btn( class="btn-primary ml-1", onclick= destination) Update
+    script. 
+        function dispatch(path) {
+            window.location.href=path
+        }
+
     
